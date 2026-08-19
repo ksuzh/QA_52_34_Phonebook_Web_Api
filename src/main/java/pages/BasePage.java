@@ -35,6 +35,11 @@ public abstract class BasePage {
         return text;
     }
 
+    public boolean isElementPresent(WebElement element) {
+        return new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOf(element)).isDisplayed();
+    }
+
     public void pause(int time) {
         try {
             Thread.sleep(time);

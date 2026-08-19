@@ -19,6 +19,13 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//a[text()='LOGIN']")
     WebElement btnLogin;
 
+    @FindBy(xpath = "//button[text()='Sign Out']")
+    WebElement btnSignOut;
+
+    public boolean isBtnSignOut() {
+        return isElementPresent(btnSignOut);
+    }
+
 
     public void clickBtnLogin(){
         btnLogin.click();

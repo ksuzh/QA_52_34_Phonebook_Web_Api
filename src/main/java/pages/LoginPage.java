@@ -37,5 +37,7 @@ public class LoginPage extends BasePage {
         btnRegister.click();
     }
 
-
+    public void clickBtnLogin() {
+        btnLogin.click();
+    }
 }
