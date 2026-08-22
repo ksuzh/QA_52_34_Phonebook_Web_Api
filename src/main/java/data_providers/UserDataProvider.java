@@ -18,7 +18,9 @@ public class UserDataProvider {
                     new BufferedReader(new FileReader("src/test/resources/wrong_email_password.csv"))){
             String line = bufferedReader.readLine();
             while (line != null) {
+                System.out.println("Reading line: " + line);
                 String[] splitLine = line.split(",");
+                System.out.println("length: " + splitLine.length);
                 list.add(UserLombock.builder()
                         .username(splitLine[0])
                         .password(splitLine[1])

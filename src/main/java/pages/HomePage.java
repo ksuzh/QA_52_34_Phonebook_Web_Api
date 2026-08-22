@@ -6,6 +6,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+
+import static pages.BasePage.driver;
 import static utils.PropertiesReader.*;
 
 public class HomePage extends BasePage {
@@ -30,7 +36,19 @@ public class HomePage extends BasePage {
     public void clickBtnLogin(){
         btnLogin.click();
     }
+
+    public boolean isUrlContainsText(String text){
+        try{
+            return new WebDriverWait(driver, Duration.ofSeconds(5))
+                    .until(ExpectedConditions.urlContains(text));
+        }catch(RuntimeException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
+
+
 
 //    public void method(){
 //        WebElement login = driver

@@ -10,6 +10,8 @@ import org.testng.annotations.Test;
 import pages.ContactsPage;
 import pages.HomePage;
 import pages.LoginPage;
+
+import static utils.PropertiesReader.getProperty;
 import static utils.UserFactory.*;
 
 import java.util.Random;
@@ -75,6 +77,18 @@ public class RegistrationTests extends AppManager {
                 .contains("Wrong email or password format"));
     }
 
+    @Test
+    public void registrationNegativeExistingUserTest(){
+        UserLombock user = UserLombock.builder()
+                .username(getProperty("base.properties", "email"))
+                .password(getProperty("base.properties", "password"))
+                .build();
+        loginPage.typeLoginRegistrationForm(user);
+        loginPage.clickBtnRegistration();
+        Assert.assertTrue(loginPage.closeAlert()
+                .contains("User already exist"));
+    }
+
     @Test(dataProvider = "dataProviderWrongPasswordOrEmail",
             dataProviderClass = UserDataProvider.class)
     public void registrationNegativeWrongPasswordTest(UserLombock user){
@@ -83,6 +97,7 @@ public class RegistrationTests extends AppManager {
         Assert.assertTrue(loginPage.closeAlert()
                 .contains("Wrong email or password format"));
     }
+
 
 //    @Test
 //    public void testMethod(){
