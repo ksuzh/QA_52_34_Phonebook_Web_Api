@@ -4,14 +4,17 @@ import dto.UserLombock;
 import manager.AppManager;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.HomePage;
 import pages.LoginPage;
+import utils.TestNGListener;
+
 import static utils.PropertiesReader.*;
 import static utils.UserFactory.*;
 
-
+@Listeners(TestNGListener.class)
 public class LoginTests extends AppManager {
     LoginPage loginPage;
     HomePage homePage;
