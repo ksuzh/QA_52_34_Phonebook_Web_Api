@@ -98,4 +98,5 @@ public class LoginTests extends AppManager {
                 .contains("Wrong email or password"));
     }
 
+
 }
