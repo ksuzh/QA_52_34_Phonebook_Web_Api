@@ -1,7 +1,7 @@
 package api_tests;
 
 import data_providers.UserDataProvider;
-import dto.UserLombock;
+import dto.UserLombok;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -19,7 +19,7 @@ public class RegistrationLoginApiTests implements BaseApi {
 
     @Test
     public void registrationApiPositiveTest() {
-        UserLombock user = positiveUser();
+        UserLombok user = positiveUser();
         RequestBody requestBody  = RequestBody.create(GSON.toJson(user), JSON);
         Request request = new Request.Builder()
                 .url(BASE_URL + REGISTRATION_URL)
@@ -37,7 +37,7 @@ public class RegistrationLoginApiTests implements BaseApi {
 
     @Test
     public void registrationApiWrongPasswordNegativeTest() {
-        UserLombock user = positiveUser();
+        UserLombok user = positiveUser();
         user.setPassword("qwerty123!");
         RequestBody requestBody  = RequestBody.create(GSON.toJson(user), JSON);
         Request request = new Request.Builder()
@@ -56,7 +56,7 @@ public class RegistrationLoginApiTests implements BaseApi {
 
     @Test
     public void registrationApiDuplicatedUserNegativeTest() {
-        UserLombock user = positiveUser();
+        UserLombok user = positiveUser();
 
         RequestBody requestBody  = RequestBody.create(GSON.toJson(user), JSON);
         Request request = new Request.Builder()
@@ -76,7 +76,7 @@ public class RegistrationLoginApiTests implements BaseApi {
 
     @Test
     public void registrationApiWrongFormatNegativeTest() {
-        UserLombock user = positiveUser();
+        UserLombok user = positiveUser();
 
         RequestBody requestBody  = RequestBody.create(GSON.toJson(user), TEXT);
         Request request = new Request.Builder()
@@ -95,7 +95,7 @@ public class RegistrationLoginApiTests implements BaseApi {
 
     @Test
     public void loginApiPositiveTest() {
-        UserLombock user = UserLombock
+        UserLombok user = UserLombok
                 .builder()
                 .username(getProperty("base.properties", "email"))
                 .password(getProperty("base.properties", "password"))
@@ -117,7 +117,7 @@ public class RegistrationLoginApiTests implements BaseApi {
 
     @Test
     public void loginApiWrongPasswordNegativeTest() {
-        UserLombock user = UserLombock
+        UserLombok user = UserLombok
                 .builder()
                 .username(getProperty("base.properties", "email"))
                 .password("qwerty123!")
@@ -137,5 +137,126 @@ public class RegistrationLoginApiTests implements BaseApi {
         Assert.assertEquals(response.code(), 401);
     }
 
+    @Test(dataProvider = "dataProviderWrongPasswordOrEmail",
+            dataProviderClass = UserDataProvider.class)
+    public void loginApiDataProviderNegativeTest(UserLombok user) {
+        RequestBody requestBody  = RequestBody.create(GSON.toJson(user), JSON);
+        Request request = new Request.Builder()
+                .url(BASE_URL + LOGIN_URL)
+                .post(requestBody)
+                .build();
+        Response response;
+        try {
+            response = OK_HTTP_CLIENT.newCall(request).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(response);
+        Assert.assertEquals(response.code(), 401);
+    }
 
+    @Test
+    public void loginApiWrongRequestNegativeTest() {
+        UserLombok user = UserLombok
+                .builder()
+                .username(getProperty("base.properties", "email"))
+                .password(getProperty("base.properties", "password"))
+                .build();
+        RequestBody requestBody  = RequestBody.create(GSON.toJson(user), JSON);
+        Request request = new Request.Builder()
+                .url(BASE_URL + LOGIN_URL)
+                .put(requestBody)
+                .build();
+        Response response;
+        try {
+            response = OK_HTTP_CLIENT.newCall(request).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(response);
+        Assert.assertEquals(response.code(), 403);
+    }
+
+    @Test
+    public void loginApiEmptyFieldsNegativeTest() {
+        UserLombok user = UserLombok
+                .builder()
+                .username("")
+                .password("")
+                .build();
+        RequestBody requestBody  = RequestBody.create(GSON.toJson(user), JSON);
+        Request request = new Request.Builder()
+                .url(BASE_URL + LOGIN_URL)
+                .post(requestBody)
+                .build();
+        Response response;
+        try {
+            response = OK_HTTP_CLIENT.newCall(request).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(response);
+        Assert.assertEquals(response.code(), 401);
+    }
+
+    @Test
+    public void loginApiEmptyBodyNegativeTest() {
+        RequestBody requestBody  = RequestBody.create("", JSON);
+        Request request = new Request.Builder()
+                .url(BASE_URL + LOGIN_URL)
+                .post(requestBody)
+                .build();
+        Response response;
+        try {
+            response = OK_HTTP_CLIENT.newCall(request).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(response);
+        Assert.assertEquals(response.code(), 400);
+    }
+
+    @Test
+    public void loginApiWrongEmailNegativeTest() {
+        UserLombok user = UserLombok
+                .builder()
+                .username(getProperty("base.properties", "wrong_email"))
+                .password(getProperty("base.properties", "password"))
+                .build();
+        RequestBody requestBody  = RequestBody.create(GSON.toJson(user), JSON);
+        Request request = new Request.Builder()
+                .url(BASE_URL + LOGIN_URL)
+                .post(requestBody)
+                .build();
+        Response response;
+        try {
+            response = OK_HTTP_CLIENT.newCall(request).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(response);
+        Assert.assertEquals(response.code(), 401);
+    }
+
+    @Test
+    public void loginApiEmptyPasswordNegativeTest() {
+        UserLombok user = UserLombok
+                .builder()
+                .username(getProperty("base.properties", "email"))
+                .password("")
+                .build();
+        RequestBody requestBody  = RequestBody.create(GSON.toJson(user), JSON);
+        Request request = new Request.Builder()
+                .url(BASE_URL + LOGIN_URL)
+                .post(requestBody)
+                .build();
+        Response response;
+        try {
+            response = OK_HTTP_CLIENT.newCall(request).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(response);
+        Assert.assertEquals(response.code(), 401);
+    }
 }

@@ -1,6 +1,6 @@
 package ui_tests;
 
-import dto.UserLombock;
+import dto.UserLombok;
 import manager.AppManager;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -12,7 +12,6 @@ import pages.LoginPage;
 import utils.TestNGListener;
 
 import static utils.PropertiesReader.*;
-import static utils.UserFactory.*;
 
 @Listeners(TestNGListener.class)
 public class LoginTests extends AppManager {
@@ -29,7 +28,7 @@ public class LoginTests extends AppManager {
 
     @Test(groups = {"smoke", "regress", "user", "positive"})
     public void loginPositiveTest() {
-        UserLombock user = UserLombock.builder()
+        UserLombok user = UserLombok.builder()
                 .username(getProperty("base.properties", "email"))
                 .password(getProperty("base.properties", "password"))
                 .build();
@@ -45,7 +44,7 @@ public class LoginTests extends AppManager {
 
     @Test
     public void loginNegativeWrongPasswordTest() {
-        UserLombock user = UserLombock.builder()
+        UserLombok user = UserLombok.builder()
                 .username(getProperty("base.properties", "email"))
                 .password(getProperty("base.properties", "wrong_password"))
                 .build();
@@ -57,7 +56,7 @@ public class LoginTests extends AppManager {
 
     @Test
     public void loginNegativeWrongEmailTest() {
-        UserLombock user = UserLombock.builder()
+        UserLombok user = UserLombok.builder()
                 .username(getProperty("base.properties", "wrong_email"))
                 .password(getProperty("base.properties", "password"))
                 .build();
@@ -69,7 +68,7 @@ public class LoginTests extends AppManager {
 
     @Test
     public void loginNegativeEmptyPasswordTest() {
-        UserLombock user = UserLombock.builder()
+        UserLombok user = UserLombok.builder()
                 .username(getProperty("base.properties", "email"))
                 .password("")
                 .build();
@@ -81,7 +80,7 @@ public class LoginTests extends AppManager {
 
     @Test
     public void loginNegativeEmptyEmailTest() {
-        UserLombock user = UserLombock.builder()
+        UserLombok user = UserLombok.builder()
                 .username("")
                 .password(getProperty("base.properties", "password"))
                 .build();

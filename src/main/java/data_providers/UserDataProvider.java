@@ -1,6 +1,6 @@
 package data_providers;
 
-import dto.UserLombock;
+import dto.UserLombok;
 import org.testng.annotations.DataProvider;
 
 import java.io.BufferedReader;
@@ -12,8 +12,8 @@ import java.util.List;
 
 public class UserDataProvider {
     @DataProvider
-    public Iterator<UserLombock> dataProviderWrongPasswordOrEmail() {
-        List<UserLombock> list = new ArrayList<>();
+    public Iterator<UserLombok> dataProviderWrongPasswordOrEmail() {
+        List<UserLombok> list = new ArrayList<>();
         try(BufferedReader bufferedReader =
                     new BufferedReader(new FileReader("src/test/resources/wrong_email_password.csv"))){
             String line = bufferedReader.readLine();
@@ -21,7 +21,7 @@ public class UserDataProvider {
                 System.out.println("Reading line: " + line);
                 String[] splitLine = line.split(",");
                 System.out.println("length: " + splitLine.length);
-                list.add(UserLombock.builder()
+                list.add(UserLombok.builder()
                         .username(splitLine[0])
                         .password(splitLine[1])
                         .build());

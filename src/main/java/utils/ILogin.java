@@ -1,7 +1,7 @@
 package utils;
 
 import dto.TokenDto;
-import dto.UserLombock;
+import dto.UserLombok;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -12,8 +12,8 @@ import static utils.PropertiesReader.getProperty;
 
 public interface ILogin extends BaseApi {
     default TokenDto loginGetToken(){
-        UserLombock user =
-                UserLombock.builder()
+        UserLombok user =
+                UserLombok.builder()
                         .username(getProperty("base.properties", "email"))
                         .password(getProperty("base.properties", "password"))
                         .build();

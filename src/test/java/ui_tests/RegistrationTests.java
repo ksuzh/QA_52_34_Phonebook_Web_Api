@@ -1,10 +1,9 @@
 package ui_tests;
 
 import data_providers.UserDataProvider;
-import dto.UserLombock;
+import dto.UserLombok;
 import manager.AppManager;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -32,7 +31,7 @@ public class RegistrationTests extends AppManager {
     @Test(groups = {"smoke", "regress", "user", "positive"})
     public void registrationPositiveTest(){
         int i = new Random().nextInt(1000);
-        UserLombock user = UserLombock.builder()
+        UserLombok user = UserLombok.builder()
                 .username("whatever" + i + "@gmail.com")
                 .password("Adfert23!")
                 .build();
@@ -45,7 +44,7 @@ public class RegistrationTests extends AppManager {
 
     @Test
     public void registrationPositiveTestWithFaker(){
-        UserLombock user = positiveUser();
+        UserLombok user = positiveUser();
         System.out.println(user);
         loginPage.typeLoginRegistrationForm(user);
         loginPage.clickBtnRegistration();
@@ -63,7 +62,7 @@ public class RegistrationTests extends AppManager {
 
     @Test
     public void registrationNegativeEmptyEmailTest(){
-        UserLombock user = positiveUser();
+        UserLombok user = positiveUser();
         user.setUsername("");
         loginPage.typeLoginRegistrationForm(user);
         loginPage.clickBtnRegistration();
@@ -73,7 +72,7 @@ public class RegistrationTests extends AppManager {
 
     @Test
     public void registrationNegativeEmptyPasswordTest(){
-        UserLombock user = positiveUser();
+        UserLombok user = positiveUser();
         user.setPassword("");
         loginPage.typeLoginRegistrationForm(user);
         loginPage.clickBtnRegistration();
@@ -83,7 +82,7 @@ public class RegistrationTests extends AppManager {
 
     @Test
     public void registrationNegativeExistingUserTest(){
-        UserLombock user = UserLombock.builder()
+        UserLombok user = UserLombok.builder()
                 .username(getProperty("base.properties", "email"))
                 .password(getProperty("base.properties", "password"))
                 .build();
@@ -95,7 +94,7 @@ public class RegistrationTests extends AppManager {
 
     @Test(dataProvider = "dataProviderWrongPasswordOrEmail",
             dataProviderClass = UserDataProvider.class)
-    public void registrationNegativeWrongPasswordTest(UserLombock user){
+    public void registrationNegativeWrongPasswordTest(UserLombok user){
         loginPage.typeLoginRegistrationForm(user);
         loginPage.clickBtnRegistration();
         Assert.assertTrue(loginPage.closeAlert()
